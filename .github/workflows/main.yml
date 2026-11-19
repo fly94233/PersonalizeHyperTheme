@@ -35,7 +35,10 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
-          android-sdk-file: ~/android-sdk
+          # packages 默认为 'tools platform-tools'; Google 已从 SDK 仓库下架 tools 包,
+          # sdkmanager 装它会报 Failed to find package 'tools' 并 exit 1 (2026-09 起多家仓库同款失败),
+          # 设为空跳过该安装; 编译所需的 platforms;android-34 / build-tools;34.0.0 由 Gradle 自动装
+          packages: ''
 
       - name: Build Debug APK (for testing)
         run: ./gradlew assembleDebug
